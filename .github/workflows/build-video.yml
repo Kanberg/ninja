@@ -1,0 +1,27 @@
+name: Build Video
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install FFmpeg
+      run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+    - name: Make script executable
+      run: chmod +x make_video.sh
+
+    - name: Run video generator
+      run: ./make_video.sh
+
+    - name: Upload result
+      uses: actions/upload-artifact@v3
+      with:
+        name: final_video
+        path: final_video.mp4
